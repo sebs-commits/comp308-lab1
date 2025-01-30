@@ -3,7 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const studentRoutes = require('./routes/studentRoute.js') 
+const studentRoutes = require('./routes/authRoute.js') 
 
 
 const app = express();
