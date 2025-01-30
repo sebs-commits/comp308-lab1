@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const studentRoutes = require('./routes/authRoute.js') 
-
+const courseRoutes = require('./routes/courseRoute.js') 
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -27,6 +27,7 @@ app.get('/', (req, res) => {
     res.json({ message: 'Home' });
 });
 app.use("/api", studentRoutes)
+app.use("/api", courseRoutes)
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
