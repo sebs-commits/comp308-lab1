@@ -9,7 +9,7 @@ const studentSchema = new mongoose.Schema({
     studentEmail:{ type: String, required: true, unique: true },
     password:{ type: String, required: true },
     address: { type: String, required: false }, 
-    program: { type: String, required: true }, // keep required
+    program: { type: String, enum: ["TECHNOLOGY", "HEALTHCARE", "BUSINESS"], required: true, uppercase:true }, // keep required
     age: { type: Number, required: false}, // custom field #1
     favLanguage: { type: String, enum: ["JAVA", "SQL", "C#", "JAVASCRIPT", "NONE"], default: "NONE", uppercase: true, required: true }, // custom field #2
     role: { type: String, required: true, default: "STUDENT"}
