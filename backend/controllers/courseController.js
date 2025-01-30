@@ -30,7 +30,20 @@ const getAllCourses = async ( req, res ) => {
         res.status(400).json({message: error.message})
     }
 }
+const getCourseById = async ( req, res ) => {
+    try{
+        const course = await Course.findById(req.params.id);
+        if (!course){
+            throw new Error ("Course not found");
+        }
+        res.status(200).send(course)
+    }
+    catch(error){
+        res.status(400).json({message: error.message})
+    }
+}
 module.exports ={
     createCourse,
     getAllCourses,
+    getCourseById,
 }
