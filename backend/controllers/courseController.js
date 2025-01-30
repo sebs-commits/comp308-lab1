@@ -16,13 +16,21 @@ const createCourse = async ( req, res) => {
             message: "Created course successfully \n" + course,
             })
         }   
-        
     }
     catch(error){
         res.status(400).json({message: error.message})
     }
 }
-
+const getAllCourses = async ( req, res ) => {
+    try{
+        const courses = await Course.find({})
+        res.status(200).send(courses)
+    }
+    catch(error){
+        res.status(400).json({message: error.message})
+    }
+}
 module.exports ={
     createCourse,
+    getAllCourses,
 }
