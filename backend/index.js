@@ -5,7 +5,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const studentRoutes = require('./routes/authRoute.js') 
 const courseRoutes = require('./routes/courseRoute.js') 
-
+const adminRoutes = require('./routes/adminRoute.js') 
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -28,6 +28,7 @@ app.get('/', (req, res) => {
 });
 app.use("/api", studentRoutes)
 app.use("/api", courseRoutes)
+app.use("/api", adminRoutes)
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
