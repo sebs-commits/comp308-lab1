@@ -31,7 +31,23 @@ const addCourse = async ( req, res ) =>{
         res.status(400).json({message: error.message})
     }
 }
+//drop course
+const dropCourse = async (req, res)=>{
+    try{
+        const studentId = req.body.studentId;
+        const courseId = req.body.courseId;
+        await Course.findByIdAndUpdate(
+            courseId,
+            {$pull: {students: studentId}}
+        )
+        res.status(200).json({message: "Success: Student removed from course"})
+    }
+    catch(error){
+        res.status(400).json({message: error.message})
+    }
+}
 module.exports = {
     getAllStudents,
-    addCourse
+    addCourse,
+    dropCourse
 }
