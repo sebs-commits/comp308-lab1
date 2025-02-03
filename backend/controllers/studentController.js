@@ -46,8 +46,25 @@ const dropCourse = async (req, res)=>{
         res.status(400).json({message: error.message})
     }
 }
+// list all courses taken by student
+const getCourseListById = async(req, res) =>{
+    try{
+        const studentId = req.params.id;
+        if(!studentId){
+            throw new Error ("Id does not match")
+        }
+        const courses = await Course.find({
+            students: studentId
+        })
+        res.status(200).json(courses)
+    }
+    catch(error){
+        res.status(400).json({message: error.message})
+    }
+}
 module.exports = {
     getAllStudents,
     addCourse,
-    dropCourse
+    dropCourse,
+    getCourseListById,
 }
