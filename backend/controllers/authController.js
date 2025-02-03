@@ -28,7 +28,7 @@ const loginStudent = async (req, res) => {
         
         // generate token
         const token = jwt.sign(
-            { _id: student._id },
+            {student:{ _id: student._id }},
             process.env.JWT_SECRET,
             {
               expiresIn: "1h",

@@ -1,8 +1,9 @@
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const authVerification = async (req, res, next) => {
   // get token from header first
-  const token = req.header("x-auth-token");
+  const token = req.header("Authorization");
 
   // check if no token
   if (!token) {
@@ -13,7 +14,7 @@ const authVerification = async (req, res, next) => {
   // verify token
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded.user;
+    req.student = decoded.student;
     next();
   } catch (err) {
     console.log("Token is not valid");
