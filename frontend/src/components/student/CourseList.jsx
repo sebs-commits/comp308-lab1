@@ -1,19 +1,61 @@
+import React, { useEffect, useState } from 'react';
+import { getCourses, enrollInCourse, dropCourse } from '../../services/course.Service';
+
 const CourseList = () => {
-    // will replace later
-    const courses = [
-        { code: 'CS101', name: 'Introduction to Computer Science', section: 1, semester: 'Fall 2023' },
-        { code: 'MATH201', name: 'Calculus II', section: 3, semester: 'Spring 2024' },
-        { code: 'PHYS101', name: 'Physics Fundamentals', section: 2, semester: 'Fall 2023' }
-    ];
+    const [courses, setCourses] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const studentId = localStorage.getItem('studentId');
+
+    useEffect(() => {
+        const fetchCourses = async () => {
+            try {
+                const data = await getCourses();
+                setCourses(data);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchCourses();
+    }, []);
+
+    const isEnrolled = (course) => {
+        return course.students.includes(studentId);
+    };
+
+    const handleEnroll = async (courseId) => {
+        try {
+            await enrollInCourse(courseId);
+            const updatedCourses = await getCourses();
+            setCourses(updatedCourses);
+        } catch (error) {
+            console.error('Enrollment failed:', error);
+        }
+    };
+
+    const handleDrop = async (courseId) => {
+        try {
+            await dropCourse(courseId);
+            const updatedCourses = await getCourses();
+            setCourses(updatedCourses);
+        } catch (error) {
+            console.error('Drop failed:', error);
+        }
+    };
+
+    if (loading) return <div className="loading loading-spinner text-primary"></div>;
+    if (error) return <div className="text-error">Error: {error}</div>;
 
     return (
         <div className="p-4 text-gray-900">
-            <h2 className="text-2xl font-bold mb-4 text-gray-900">All Courses</h2>
+            <h2 className="text-2xl font-bold mb-4">All Courses</h2>
             <div className="overflow-x-auto">
                 <table className="table">
-                    {/* table header */}
                     <thead>
-                        <tr>
+                        <tr className="text-gray-900">
+                            <th>Status</th>
                             <th>Course Code</th>
                             <th>Course Name</th>
                             <th>Section</th>
@@ -21,17 +63,33 @@ const CourseList = () => {
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    {/* table contents */}
                     <tbody>
-                        {courses.map((course, index) => (
-                            <tr key={index}>
-                                <td>{course.code}</td>
-                                <td>{course.name}</td>
+                        {courses.map((course) => (
+                            <tr key={course._id} className={isEnrolled(course) ? 'bg-gray-300' : ''}>
+                                <td>
+                                    {isEnrolled(course) ? 
+                                        <span className="badge badge-success">Enrolled</span> : 
+                                        <span className="badge">Not Enrolled</span>
+                                    }
+                                </td>
+                                <td>{course.courseCode}</td>
+                                <td>{course.courseName}</td>
                                 <td>{course.section}</td>
                                 <td>{course.semester}</td>
                                 <td>
-                                    <button className="btn btn-sm btn-primary mr-2">Test btn</button>
-                                    <button className="btn btn-sm btn-secondary">Test btn</button>
+                                    {isEnrolled(course) ? (
+                                        <button 
+                                            className="btn btn-sm btn-error"
+                                            onClick={() => handleDrop(course._id)}>
+                                            Drop
+                                        </button>
+                                    ) : (
+                                        <button 
+                                            className="btn btn-sm btn-primary"
+                                            onClick={() => handleEnroll(course._id)}>
+                                            Enroll
+                                        </button>
+                                    )}
                                 </td>
                             </tr>
                         ))}
