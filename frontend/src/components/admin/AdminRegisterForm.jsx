@@ -8,9 +8,9 @@ const AdminRegister = () => {
             lastName: '',
             studentEmail: '',
             password: '',
-            program: 'TECHNOLOGY',
+            program: '',
             age: '',
-            favLanguage: 'NONE',
+            favLanguage: '',
             address: ''
         }
     });
@@ -33,13 +33,14 @@ const AdminRegister = () => {
                 <input {...register("studentEmail")} type="email" placeholder="Email" className="input input-bordered w-full" />
                 <input {...register("password")} type="password" placeholder="Password" className="input input-bordered w-full" />
                 <select {...register("program")} className="select select-bordered w-full">
+                <option value="" disabled selected>Select a Program</option>
                     <option value="TECHNOLOGY">Technology</option>
                     <option value="HEALTHCARE">Healthcare</option>
                     <option value="BUSINESS">Business</option>
                 </select>
                 <input {...register("age")} type="number" placeholder="Age" className="input input-bordered w-full" />
                 <select {...register("favLanguage")} placeholder="Favorite Language" className="select select-bordered w-full">
-                    <option placeholder="test">Favorite Language</option>
+                    <option value="" disabled selected>Select a language</option>
                     <option value="NONE">None</option>
                     <option value="JAVA">Java</option>
                     <option value="SQL">SQL</option>

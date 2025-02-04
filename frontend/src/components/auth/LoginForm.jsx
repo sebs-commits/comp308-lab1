@@ -41,7 +41,7 @@ const LoginForm = () => {
             
             const role = localStorage.getItem('role');  
             if (role === 'ADMIN') {
-                navigate("/test");
+                navigate("/admin");
             } else {
                 navigate("/student");
             }
@@ -99,8 +99,7 @@ const LoginForm = () => {
             
             <button 
                 type="submit" 
-                className="btn btn-primary w-full"
-            >
+                className="btn btn-primary w-full">
                 Login
             </button>
             
