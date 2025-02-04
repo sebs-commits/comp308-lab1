@@ -17,8 +17,26 @@ export const adminService = {
         return response.data;
     },
 
+    //logic
+    // first get the course with student IDs
+    // then get all students
+    // filter students that are in the course
     getStudentsByCourse: async (courseId) => {
-        const response = await api.get(`${ENDPOINTS.COURSE_STUDENTS}/${courseId}`);
-        return response.data;
+        try {            
+            const courseResponse = await api.get(`${ENDPOINTS.COURSES}/${courseId}`);
+            const studentIds = courseResponse.data.students;
+
+            const studentsResponse = await api.get(ENDPOINTS.LIST_STUDENTS);
+            const allStudents = studentsResponse.data;
+
+            const enrolledStudents = allStudents.filter(student => 
+                studentIds.includes(student._id)
+            );
+
+            return enrolledStudents;
+        } catch (error) {
+            console.error('Error fetching students by course:', error);
+            return [];
+        }
     }
 };
