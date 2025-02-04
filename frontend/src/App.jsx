@@ -5,7 +5,7 @@ import StudentHome from "./components/student/StudentHome.jsx";
 
 function App() {
 
-  const isAuthenticated = localStorage.getItem('token');
+  const isAuthenticated = localStorage.getItem('token') && localStorage.getItem('studentId');
 
   return (
     <>

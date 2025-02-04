@@ -37,7 +37,8 @@ const loginStudent = async (req, res) => {
       
           res.status(200).json({ 
             message: "Log in successful",
-            token 
+            token,
+            student: { _id: student._id }
         });
 
     }
