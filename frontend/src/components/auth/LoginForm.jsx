@@ -62,7 +62,10 @@ const LoginForm = () => {
             <button className="btn btn-primary w-full">Login</button>
             
             <div className="text-sm text-center text-gray-500">
-              <a href="#" className="hover:underline">Forgot password?</a>
+              <a href="#" className="hover:underline">Demo Student</a>
+            </div>
+            <div className="text-sm text-center text-gray-500">
+              <a href="#" className="hover:underline">Demo Admin</a>
             </div>
           </div>
         </div>
