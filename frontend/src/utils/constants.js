@@ -5,5 +5,7 @@ export const ENDPOINTS = {
     REGISTER: '/register',
     COURSES: '/course-list',
     ADD_COURSE: '/add-course',
-    DROP_COURSE: '/drop-course'
+    DROP_COURSE: '/drop-course',
+    LIST_STUDENTS:'/list-students',
+    COURSE_STUDENTS: '/course-list'
 };
