@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { authService } from '../../services/auth.service.js';
 
 const LoginForm = () => {
     const [formData, setFormData] = useState({
@@ -13,11 +14,25 @@ const LoginForm = () => {
         });
     };
 
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await authService.login({
+                studentEmail: formData.studentEmail,
+                password: formData.password
+            });
+            console.log("Successfully logged in");
+            // navigate to correct dashboard/home
+        } catch (error) {
+            console.error('Login failed:', error.response?.data?.message || 'An error occurred');
+        }
+    };
+
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
         <div className="bg-white p-8 rounded-lg shadow-md w-96">
           <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
-          <div className="space-y-4">
+          <form onSubmit={handleLogin} className="space-y-4">
             <label className="input input-bordered flex items-center gap-2 bg-gray-100">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -59,7 +74,12 @@ const LoginForm = () => {
                 />
             </label>
             
-            <button className="btn btn-primary w-full">Login</button>
+            <button 
+                type="submit" 
+                className="btn btn-primary w-full"
+            >
+                Login
+            </button>
             
             <div className="text-sm text-center text-gray-500">
               <a href="#" className="hover:underline">Demo Student</a>
@@ -67,7 +87,7 @@ const LoginForm = () => {
             <div className="text-sm text-center text-gray-500">
               <a href="#" className="hover:underline">Demo Admin</a>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     )
