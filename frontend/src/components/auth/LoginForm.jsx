@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { authService } from '../../services/auth.service.js';
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
     const [formData, setFormData] = useState({
@@ -29,6 +30,7 @@ const LoginForm = () => {
         })
     }
 
+    const navigate = useNavigate();
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
@@ -36,12 +38,13 @@ const LoginForm = () => {
                 studentEmail: formData.studentEmail,
                 password: formData.password
             });
-            console.log("Successfully logged in");
-            // navigate to correct dashboard/home
+            
+            navigate("/student")
         } catch (error) {
             console.error('Login failed:', error.response?.data?.message || 'An error occurred');
         }
     };
+    
 
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
