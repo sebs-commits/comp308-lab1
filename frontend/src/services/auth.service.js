@@ -7,6 +7,7 @@ export const authService = {
         if (response.data.token) {
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('studentId', response.data.student._id);
+            localStorage.setItem('role', response.data.student.role);
         }
         return response.data;
     },
@@ -14,5 +15,6 @@ export const authService = {
     logout: () => {
         localStorage.removeItem('token');
         localStorage.removeItem('studentId');
+        localStorage.removeItem('role');
     }
 };

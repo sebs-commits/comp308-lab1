@@ -39,7 +39,12 @@ const LoginForm = () => {
                 password: formData.password
             });
             
-            navigate("/student")
+            const role = localStorage.getItem('role');  
+            if (role === 'ADMIN') {
+                navigate("/test");
+            } else {
+                navigate("/student");
+            }
         } catch (error) {
             console.error('Login failed:', error.response?.data?.message || 'An error occurred');
         }
