@@ -1,4 +1,19 @@
+import { authService } from '../../services/auth.service.js';
+import { useNavigate } from 'react-router-dom';
 const StudentNav = () => {
+
+    const navigate = useNavigate();
+    const handleLogout = async (e) =>{
+        e.preventDefault();
+        try{
+            const response = await authService.logout();
+            navigate("/login")
+            console.log("logged out successfully")
+
+        } catch (error) {
+            console.error('Failed to logout:', error.response?.data?.message || 'An error occurred');
+        }
+    }
     return (
     <div className="navbar bg-base-100">
         <div className="navbar-start">
@@ -33,7 +48,7 @@ const StudentNav = () => {
             </ul>
         </div>
         <div className="navbar-end">
-            <a className="btn">Logout</a>
+            <a className="btn" onClick={handleLogout}>Logout</a>
         </div>
     </div>
     );
