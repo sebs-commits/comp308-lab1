@@ -14,6 +14,21 @@ const LoginForm = () => {
         });
     };
 
+    const clickDemoAdmin = (e) => {
+        e.preventDefault();
+        setFormData({
+            studentEmail: "admin@admin.com",
+            password: "idk"
+        })
+    }
+    const clickDemoStudent = (e) => {
+        e.preventDefault();
+        setFormData({
+            studentEmail: "john@example.com",
+            password: "idk"
+        })
+    }
+
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
@@ -33,7 +48,7 @@ const LoginForm = () => {
         <div className="bg-white p-8 rounded-lg shadow-md w-96">
           <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
           <form onSubmit={handleLogin} className="space-y-4">
-            <label className="input input-bordered flex items-center gap-2 bg-gray-100">
+            <label className="input input-bordered flex items-center gap-2 bg-gray-100 text-gray-900 font-semibold">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 16 16"
@@ -53,7 +68,7 @@ const LoginForm = () => {
                     placeholder="Email" 
                 />
             </label>
-            <label className="input input-bordered flex items-center gap-2 bg-gray-100">
+            <label className="input input-bordered flex items-center gap-2 bg-gray-100 text-gray-900 font-semibold">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 16 16"
@@ -82,10 +97,10 @@ const LoginForm = () => {
             </button>
             
             <div className="text-sm text-center text-gray-500">
-              <a href="#" className="hover:underline">Demo Student</a>
+              <a href="#" className="hover:underline" onClick={clickDemoStudent}>Demo Student</a>
             </div>
             <div className="text-sm text-center text-gray-500">
-              <a href="#" className="hover:underline">Demo Admin</a>
+              <a href="#" className="hover:underline" onClick={clickDemoAdmin}>Demo Admin</a>
             </div>
           </form>
         </div>
