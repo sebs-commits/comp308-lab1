@@ -4,6 +4,7 @@ import { adminService } from '../../services/admin.service';
 const CourseList = () => {
     const [courses, setCourses] = useState([]);
     const [selectedCourse, setSelectedCourse] = useState(null);
+    const [selectedSection, setSelectedSection] = useState(null);
     const [enrolledStudents, setEnrolledStudents] = useState([]);
 
     useEffect(() => {
@@ -19,10 +20,11 @@ const CourseList = () => {
         }
     };
 
-    const handleOpenModal = async (course) => {
+    const handleOpenModal = async (course, section) => {
         try {
             setSelectedCourse(course);
-            const students = await adminService.getStudentsByCourse(course._id);
+            setSelectedSection(section);
+            const students = await adminService.getStudentsByCourse(course._id, section);
             setEnrolledStudents(students);
             document.getElementById('enrollmentModal').showModal();
         } catch (error) {
@@ -39,9 +41,9 @@ const CourseList = () => {
                         <tr>
                             <th>Course Code</th>
                             <th>Course Name</th>
-                            <th>Section</th>
+                            <th>Sections</th>
                             <th>Semester</th>
-                            <th>Actions</th>
+                            <th>Total Enrolled</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -49,56 +51,52 @@ const CourseList = () => {
                             <tr key={course._id}>
                                 <td>{course.courseCode}</td>
                                 <td>{course.courseName}</td>
-                                <td>{course.section}</td>
-                                <td>{course.semester}</td>
                                 <td>
-                                    <button 
-                                        className="btn btn-primary btn-sm"
-                                        onClick={() => handleOpenModal(course)}
+                                    <select 
+                                        className="select select-bordered select-sm"
+                                        onChange={(e) => handleOpenModal(course, parseInt(e.target.value))}
                                     >
-                                        View Students
-                                    </button>
+                                        <option value="">Select Section</option>
+                                        {course.section.map(sec => (
+                                            <option key={sec} value={sec}>{sec}</option>
+                                        ))}
+                                    </select>
                                 </td>
+                                <td>{course.semester}</td>
+                                <td>{course.students.length}</td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
             </div>
-
             <dialog id="enrollmentModal" className="modal">
                 <div className="modal-box">
                     <h3 className="font-bold text-lg">
-                        {selectedCourse ? `Enrolled Students - ${selectedCourse.courseName}` : 'Loading...'}
+                        {selectedCourse?.courseName} - Section {selectedSection}
                     </h3>
                     <div className="py-4">
-                        <div className="overflow-x-auto">
-                            <table className="table table-zebra">
+                        {enrolledStudents.length > 0 ? (
+                            <table className="table">
                                 <thead>
                                     <tr>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
-                                        <th>Program</th>
+                                        <th>Name</th>
                                         <th>Email</th>
+                                        <th>Program</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {enrolledStudents && enrolledStudents.length > 0 ? (
-                                        enrolledStudents.map((student) => (
-                                            <tr key={student._id}>
-                                                <td>{student.firstName}</td>
-                                                <td>{student.lastName}</td>
-                                                <td>{student.program}</td>
-                                                <td>{student.studentEmail}</td>
-                                            </tr>
-                                        ))
-                                    ) : (
-                                        <tr>
-                                            <td colSpan="4" className="text-center">No students enrolled</td>
+                                    {enrolledStudents.map((student) => (
+                                        <tr key={student._id}>
+                                            <td>{`${student.firstName} ${student.lastName}`}</td>
+                                            <td>{student.studentEmail}</td>
+                                            <td>{student.program}</td>
                                         </tr>
-                                    )}
+                                    ))}
                                 </tbody>
                             </table>
-                        </div>
+                        ) : (
+                            <p>No students enrolled in this section.</p>
+                        )}
                     </div>
                     <div className="modal-action">
                         <form method="dialog">
