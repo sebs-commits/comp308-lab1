@@ -2,6 +2,7 @@ import React from 'react';
 import AdminNav from './AdminNav';
 import AdminRegisterForm from './AdminRegisterForm'
 import StudentList from './StudentList.jsx'
+import CourseList from './CourseList.jsx'
 
 
 const AdminHome = () => {
@@ -16,6 +17,9 @@ const AdminHome = () => {
                 </div>
                 <div className="bg-white p-8 rounded-lg shadow-md">
                 <StudentList/>
+                </div>
+                <div className="bg-white p-8 rounded-lg shadow-md">
+                <CourseList/>
                 </div>
                 
                 </div>
