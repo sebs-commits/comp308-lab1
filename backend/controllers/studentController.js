@@ -16,14 +16,20 @@ const getAllStudents = async ( req, res ) => {
 // save
 const addCourse = async ( req, res ) =>{
     try{
-        const studentId = req.body.studentId;
+        const { studentId, courseId, section } = req.body;
         const student = await Student.findById(studentId);
-        const courseId = req.body.courseId;
         const course = await Course.findById(courseId);
 
         await Course.findByIdAndUpdate(
             courseId,
-            {$push: {students: studentId}}
+            {
+                $push: {
+                    students: {
+                        studentId: studentId,
+                        section: section
+                    }
+                }
+            }
         )
         res.status(200).json({message: "Sucess: Student added to course!"})
     }
@@ -38,7 +44,11 @@ const dropCourse = async (req, res)=>{
         const courseId = req.body.courseId;
         await Course.findByIdAndUpdate(
             courseId,
-            {$pull: {students: studentId}}
+            {
+                $pull: {
+                    students: { studentId: studentId }
+                }
+            }
         )
         res.status(200).json({message: "Success: Student removed from course"})
     }

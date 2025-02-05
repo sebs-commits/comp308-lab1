@@ -42,8 +42,32 @@ const getCourseById = async ( req, res ) => {
         res.status(400).json({message: error.message})
     }
 }
+const updateCourse = async (req, res) => {
+    try {
+        const courseId = req.params.id;
+        const updates = req.body;
+        
+        const course = await Course.findByIdAndUpdate(
+            courseId,
+            updates,
+            { new: true }
+        );
+
+        if (!course) {
+            throw new Error("Course not found");
+        }
+
+        res.status(200).json({
+            message: "Course updated successfully",
+            course: course
+        });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
 module.exports ={
     createCourse,
     getAllCourses,
     getCourseById,
+    updateCourse,
 }
