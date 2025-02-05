@@ -6,10 +6,11 @@ export const getCourses = async () => {
     return response.data;
 };
 
-export const enrollInCourse = async (courseId) => {
+export const enrollInCourse = async (courseId, section) => {
     const response = await api.patch(ENDPOINTS.ADD_COURSE, {
         courseId,
-        studentId: localStorage.getItem('studentId')
+        studentId: localStorage.getItem('studentId'),
+        section
     });
     return response.data;
 };
@@ -19,5 +20,9 @@ export const dropCourse = async (courseId) => {
         courseId,
         studentId: localStorage.getItem('studentId')
     });
+    return response.data;
+};
+export const updateCourse = async (courseId, updates) => {
+    const response = await api.patch(`${ENDPOINTS.COURSES}/${courseId}`, updates);
     return response.data;
 };

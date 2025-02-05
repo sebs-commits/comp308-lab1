@@ -5,6 +5,7 @@ const CourseList = () => {
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [selectedSection, setSelectedSection] = useState({});
     const studentId = localStorage.getItem('studentId');
 
     useEffect(() => {
@@ -22,12 +23,16 @@ const CourseList = () => {
     }, []);
 
     const isEnrolled = (course) => {
-        return course.students.includes(studentId);
+        return course.students.some(student => student.studentId === studentId);
     };
 
     const handleEnroll = async (courseId) => {
+        if (!selectedSection[courseId]) {
+            alert('Please select a section before enrolling');
+            return;
+        }
         try {
-            await enrollInCourse(courseId);
+            await enrollInCourse(courseId, selectedSection[courseId]);
             const updatedCourses = await getCourses();
             setCourses(updatedCourses);
         } catch (error) {
@@ -74,7 +79,24 @@ const CourseList = () => {
                                 </td>
                                 <td>{course.courseCode}</td>
                                 <td>{course.courseName}</td>
-                                <td>{course.section}</td>
+                                <td>
+                                    {!isEnrolled(course) && (
+                                        <select 
+                                            className="select select-bordered select-sm"
+                                            onChange={(e) => setSelectedSection({
+                                                ...selectedSection,
+                                                [course._id]: parseInt(e.target.value)
+                                            })}
+                                            value={selectedSection[course._id] || ''}>
+                                            <option value="">Select Section</option>
+                                            {course.section.map(sec => (
+                                                <option key={sec} value={sec}>{sec}</option>
+                                            ))}
+                                        </select>
+                                    )}
+                                    {isEnrolled(course) && course.students.find(student => student.studentId === studentId)?.section
+                                    }
+                                </td>
                                 <td>{course.semester}</td>
                                 <td>
                                     {isEnrolled(course) ? (
