@@ -77,7 +77,7 @@ const CourseList = () => {
         </table>
       </div>
       <dialog id="enrollmentModal" className="modal">
-        <div className="modal-box">
+        <div className="modal-box bg-white">
           <h3 className="font-bold text-lg">
             {selectedCourse?.courseName} - Section {selectedSection}
           </h3>
