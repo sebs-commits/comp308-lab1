@@ -3,10 +3,10 @@
 @tailwind utilities;
 
 @layer components {
-    .input {
-      @apply bg-gray-100 text-gray-900 font-semibold;
-    }
-    .select {
-        @apply bg-gray-100 text-gray-900 font-semibold;
-    }
+  .input {
+    @apply bg-gray-100 text-gray-900 font-semibold;
   }
+  .select {
+    @apply bg-gray-100 text-gray-900 font-semibold;
+  }
+}
