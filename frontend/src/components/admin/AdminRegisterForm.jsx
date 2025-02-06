@@ -25,9 +25,9 @@ const AdminRegister = () => {
   };
 
   return (
-    <div className="p-4 text-gray-800">
-      <h2 className="text-2xl font-bold mb-4 ">Register New Student</h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 max-w-md">
+    <div className="w-full">
+      <h2 className="text-2xl font-bold mb-4">Register New Student</h2>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 max-w-full">
         <input
           {...register("firstName")}
           placeholder="First Name"
